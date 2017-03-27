@@ -8,12 +8,29 @@ var nameInp = document.getElementById("nameInput");
 var ageInp = document.getElementById("ageInput");
 var colorInp = document.getElementById("colorInput");
 var addBtn = document.getElementById("addBtn");
+var sortName = document.getElementById("sortName");
+var sortAge = document.getElementById("sortAge");
+var sortColor = document.getElementById("sortColor");
+var amount = document.getElementById("itemsAmount");
 
 //==================================================================
 //MAIN
 
 //==================================================================
 //CALLBACKS
+sortName.addEventListener("click", ()=>{
+    let items = amount.value;
+    sortPeople("name",items);
+});
+sortAge.addEventListener("click", ()=>{
+    let items = amount.value;
+    sortPeople("age",items);
+});
+sortColor.addEventListener("click", ()=>{
+    let items = amount.value;
+    sortPeople("favColor",items);
+});
+
 addBtn.addEventListener("click", ()=>{
     let name = nameInp.value;
     let age = ageInp.value;
@@ -34,6 +51,15 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 //==================================================================
 //FUNCTIONS
+function sortPeople(sortBy,items){
+    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(items).once("value", (snapshot)=>{
+        snapshot.forEach((child)=>{
+            let data = child.val();
+            addToList(data.name,data.age,data.favColor);
+        });
+    });
+}
+
 function addToList(name,age,color){
     peopleList.appendChild(newElement("li"));
     peopleList.lastChild.textContent = `Name: ${name}, Age: ${age}, Favourit Color: ${color}`;

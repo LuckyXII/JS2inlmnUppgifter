@@ -26,12 +26,26 @@ form{
     height: auto;
 }
 
+#sortCont h4{
+    display: inline-block;
+    margin: auto;
+    color: #898989;
+    font-family: sans-serif;
+}
+
 .sortBtns{
-    margin: 7px;
+    margin: 6.5px;
     width: 30%;
 }
 
-#listCont h3{
+#itemsAmount{
+    margin-left: 7px;
+    width: 29%;
+}
+
+
+
+#listCont h3,h5{
     color: #898989;
     text-align: center;
     border-bottom: 1px solid #898989;
