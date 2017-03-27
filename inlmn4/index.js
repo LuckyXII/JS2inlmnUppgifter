@@ -44,7 +44,6 @@ function addObjToDB(_name,_age,_favColor){
         favColor: _favColor
     };
     firebase.database().ref("people/").push(obj);
-    return newPostRef.key;
 }
 
 function newElement(elm){
