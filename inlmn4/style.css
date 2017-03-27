@@ -1,0 +1,39 @@
+form{
+    background-color: #EEE;
+    border-radius: 10px;
+    padding: 10px;
+    width: auto;
+    display: inline-block;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #898989;
+    box-shadow: 0 0 5px rgba(0,0,0,0.8);
+    margin-bottom: 20px;
+
+}
+
+#listCont{
+    width: 500px;
+    height: 80vh;    
+    background-color: #EEE;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.8);
+}
+
+#sortCont{
+    margin:auto;
+    display: block;
+    height: auto;
+}
+
+.sortBtns{
+    margin: 7px;
+    width: 30%;
+}
+
+#listCont h3{
+    color: #898989;
+    text-align: center;
+    border-bottom: 1px solid #898989;
+    margin: 15px;
+}

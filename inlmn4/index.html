@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>inlmnsuppg4JS2</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        
+        <form action="#">
+            <label for="name">Name</label>
+            <input id="nameInput" name="name" type="text" value="" placeholder="E.g Charles Von Matterhorn"/>
+            <label for="age">Age</label>
+            <input id="ageInput" name="age" type="text" value="" placeholder="E.g 37"/>
+            <label for="favColor">Favourit Color</label>
+            <input id="colorInput" name="favColor" type="text" value="" placeholder="E.g Blue"/>
+            <input id="addBtn" type="button" value="Add"/>
+        </form>
+        <div id="listCont">
+            <div id="sortCont">
+                <button class="sortBtns" id="sortName">Name</button>
+                <button class="sortBtns" id="sortAge">Age</button>
+                <button class="sortBtns" id="sortColor">Color</button>
+            </div>
+            <h3>People</h3>
+            <ul id="peopleList"></ul>
+        </div>
+        
+        
+        <script src="https://www.gstatic.com/firebasejs/3.7.3/firebase.js"></script>
+        <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyCcW35blsoKD8Y8idh7e8iRBpgPGksKLJI",
+            authDomain: "inlm4js2.firebaseapp.com",
+            databaseURL: "https://inlm4js2.firebaseio.com",
+            storageBucket: "inlm4js2.appspot.com",
+            messagingSenderId: "835527251450"
+          };
+          firebase.initializeApp(config);
+        </script>
+        <script src="index.js"></script>
+    </body>
+</html>
