@@ -53,7 +53,7 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 //==================================================================
 //FUNCTIONS
 function limitItems(){
-    firebase.database().ref("people/").limitToFirst(amount.value);
+    firebase.database().ref("people/").limitToFirst(2);
 }
 
 
