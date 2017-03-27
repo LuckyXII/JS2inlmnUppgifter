@@ -12,7 +12,7 @@ var sortName = document.getElementById("sortName");
 var sortAge = document.getElementById("sortAge");
 var sortColor = document.getElementById("sortColor");
 var amount = document.getElementById("itemsAmount");
-var limitBtn = document.getElementById("limitItemsBtn");
+
 
 //==================================================================
 //MAIN
