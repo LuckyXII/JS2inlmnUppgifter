@@ -19,20 +19,18 @@ var limitBtn = document.getElementById("limitItemsBtn");
 
 //==================================================================
 //CALLBACKS
-limitBtn.addEventListener("click", ()=>{
-    let items = amount.value;
-    limitItems(items)
-});
 
 sortName.addEventListener("click", ()=>{
-    sortPeople("name");
+    let items = amount.value;
+    sortPeople("name",items);
 });
 sortAge.addEventListener("click", ()=>{
-    sortPeople("age");
+    let items = amount.value;
+    sortPeople("age",items);
 });
 sortColor.addEventListener("click", ()=>{
-    
-    sortPeople("favColor");
+    let items = amount.value;
+    sortPeople("favColor",items);
 });
 
 addBtn.addEventListener("click", ()=>{
@@ -55,19 +53,10 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 //==================================================================
 //FUNCTIONS
-function limitItems(items){
-    firebase.database().ref("people/").limitToFirst(items).once("value", (snapshot)=>{
-        snapshot.forEach((child)=>{
-            let data = child.val();
-            addToList(data.name, data.age, data.favColor);
-        });
-    });
-}
 
-
-function sortPeople(sortBy){
+function sortPeople(sortBy,items){
     peopleList.textContent = "";
-    firebase.database().ref("people/").orderByChild(sortBy).once("value", (snapshot)=>{
+    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(items).once("value", (snapshot)=>{
         snapshot.forEach((child)=>{
             let data = child.val();
             addToList(data.name, data.age, data.favColor);
