@@ -32,9 +32,9 @@ sortColor.addEventListener("click", ()=>{
 });
 
 addBtn.addEventListener("click", ()=>{
-    let name = nameInp.value;
-    let age = ageInp.value;
-    let color = colorInp.value;
+    let name = nameInp.value.toLowerCase();
+    let age = ageInp.value.toLowerCase();
+    let color = colorInp.value.toLowerCase();
     addObjToDB(name,age,color);
 });
 
@@ -52,6 +52,7 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 //==================================================================
 //FUNCTIONS
 function sortPeople(sortBy){
+    peopleList.textContent = "";
     firebase.database().ref("people/").orderByChild(sortBy).once("value", (snapshot)=>{
         snapshot.forEach((child)=>{
             let data = child.val();
