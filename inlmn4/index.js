@@ -19,7 +19,10 @@ var limitBtn = document.getElementById("limitItemsBtn");
 
 //==================================================================
 //CALLBACKS
-limitBtn.addEventListener("click", limitItems);
+limitBtn.addEventListener("click", ()=>{
+    let items = amount.value;
+    limitItems(items)
+});
 
 sortName.addEventListener("click", ()=>{
     sortPeople("name");
@@ -52,8 +55,13 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 //==================================================================
 //FUNCTIONS
-function limitItems(){
-    firebase.database().ref("people/").limitToFirst(2);
+function limitItems(items){
+    firebase.database().ref("people/").limitToFirst(items).once("value", (snapshot)=>{
+        snapshot.forEach((child)=>{
+            let data = child.val();
+            addToList(data.name, data.age, data.favColor);
+        });
+    });
 }
 
 
