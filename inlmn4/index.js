@@ -12,23 +12,24 @@ var sortName = document.getElementById("sortName");
 var sortAge = document.getElementById("sortAge");
 var sortColor = document.getElementById("sortColor");
 var amount = document.getElementById("itemsAmount");
+var limitBtn = document.getElementById("limitItemsBtn");
 
 //==================================================================
 //MAIN
 
 //==================================================================
 //CALLBACKS
+limitBtn.addEventListener("click", limitItems);
+
 sortName.addEventListener("click", ()=>{
-    let items = amount.value;
-    sortPeople("name",items);
+    sortPeople("name");
 });
 sortAge.addEventListener("click", ()=>{
-    let items = amount.value;
-    sortPeople("age",items);
+    sortPeople("age");
 });
 sortColor.addEventListener("click", ()=>{
-    let items = amount.value;
-    sortPeople("favColor",items);
+    
+    sortPeople("favColor");
 });
 
 addBtn.addEventListener("click", ()=>{
@@ -51,6 +52,11 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 //==================================================================
 //FUNCTIONS
+function limitItems(){
+    firebase.database().ref("people/").limitToFirst(amount.value);
+}
+
+
 function sortPeople(sortBy){
     peopleList.textContent = "";
     firebase.database().ref("people/").orderByChild(sortBy).once("value", (snapshot)=>{
