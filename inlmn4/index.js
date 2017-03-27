@@ -51,8 +51,13 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 //==================================================================
 //FUNCTIONS
-function sortPeople(sortBy,items){
-    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(items);
+function sortPeople(sortBy){
+    firebase.database().ref("people/").orderByChild(sortBy).once("value", (snapshot)=>{
+        snapshot.forEach((child)=>{
+            let data = child.val();
+            addToList(data.name, data.age, data.favColor);
+        });
+    });
 }
 
 function addToList(name,age,color){
