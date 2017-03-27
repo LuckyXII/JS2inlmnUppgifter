@@ -26,8 +26,11 @@ addBtn.addEventListener("click", ()=>{
 
 firebase.database().ref("people/").on("value", (snapshot)=>{
     peopleList.textContent = "";
-    let data = snapshot.val();
-    addToList(data.name,data.age,data.favColor);
+    let allData = snapshot.val();
+    allData.forEach((data)=>{
+        addToList(data.name,data.age,data.favColor);    
+    });
+    
 });
 
 //==================================================================
