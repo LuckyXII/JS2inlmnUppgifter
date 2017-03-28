@@ -57,7 +57,7 @@ addBtn.addEventListener("click", () => {
 });
 //==================================================================
 //FIREBASE
-firebase.database().ref("people/").orderByChild("name").limitToFirst(10).on("value", (snapshot) => {
+firebase.database().ref("people/").limitToFirst(10).on("value", (snapshot) => {
     peopleList.textContent = "";
     let data = snapshot.val();
     for (let person in data) {
