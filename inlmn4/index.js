@@ -96,7 +96,7 @@ function sortPeople(sortBy, items) {
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
-            if(counter > 10){
+            if(counter < 10){
                 addToList(data.name, data.age, data.favColor);
             }
             counter++;
