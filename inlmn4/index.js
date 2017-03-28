@@ -56,7 +56,7 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 function sortPeople(sortBy,items){
     peopleList.textContent = "";
-    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(items).once("value", (snapshot)=>{
+    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
         snapshot.forEach((child)=>{
             let data = child.val();
             addToList(data.name, data.age, data.favColor);
