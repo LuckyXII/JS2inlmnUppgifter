@@ -46,8 +46,23 @@ form{
 
 
 #listCont h3,h5{
+    position: relative;
     color: #898989;
     text-align: center;
     border-bottom: 1px solid #898989;
     margin: 15px;
+}
+
+#arrowDiv{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: absolute;
+    bottom: 5%;
+    margin-left: 225px;
+}
+
+#arrowDiv i, #arrowDiv p{
+    display: inline-block;
 }

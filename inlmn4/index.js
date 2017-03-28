@@ -12,6 +12,10 @@ var sortName = document.getElementById("sortName");
 var sortAge = document.getElementById("sortAge");
 var sortColor = document.getElementById("sortColor");
 var amount = document.getElementById("itemsAmount");
+var arrowLeft = document.getElementById("leftArrow");
+var arrowRight = document.getElementById("rightArrow");
+var pageIndex = document.getElementById("pageIndex");
+var minIndex = 1, maxIndex = 10;
 
 
 //==================================================================
@@ -19,6 +23,15 @@ var amount = document.getElementById("itemsAmount");
 
 //==================================================================
 //CALLBACKS
+
+arrowRight.addEventListener("click", ()=>{
+    nextPage();
+    updateIndex();
+});
+arrowLeft.addEventListener("click", ()=>{
+    prevPage();
+    updateIndex();
+});
 
 sortName.addEventListener("click", ()=>{
     let items = amount.value;
@@ -44,16 +57,22 @@ addBtn.addEventListener("click", ()=>{
 //FIREBASE
 
 firebase.database().ref("people/").on("value", (snapshot)=>{
+    let counter = 0;
     peopleList.textContent = "";
     let data = snapshot.val();
     for(let person in data){
-        addToList(data[person].name,data[person].age,data[person].favColor);    
+       
+        if(counter > minIndex && counter < maxIndex){
+            addToList(data[person].name,data[person].age,data[person].favColor);
+        }
+        counter++;
     }
 });
 
 //==================================================================
 //FUNCTIONS
 
+//sort and limit results
 function sortPeople(sortBy,items){
     peopleList.textContent = "";
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
@@ -64,11 +83,13 @@ function sortPeople(sortBy,items){
     });
 }
 
+//add to list
 function addToList(name,age,color){
     peopleList.appendChild(newElement("li"));
     peopleList.lastChild.textContent = `Name: ${name}, Age: ${age}, Favourit Color: ${color}`;
 }
 
+//add to database
 function addObjToDB(_name,_age,_favColor){
     let obj = {
         name: _name,
@@ -78,6 +99,22 @@ function addObjToDB(_name,_age,_favColor){
     firebase.database().ref("people/").push(obj);
 }
 
+//new element
 function newElement(elm){
     return document.createElement(elm);
+}
+
+//show nr of items
+function updateIndex(){
+    pageIndex.textContent = `${minIndex}-${maxIndex}`;
+}
+function nextPage(){
+    minIndex += 10;
+    maxIndex += 10;
+}
+function prevPage(){
+    if(minIndex > 1){
+        minIndex -= 10;
+        maxIndex -= 10;
+   }
 }
