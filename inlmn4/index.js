@@ -25,9 +25,12 @@ var minIndex = 1, maxIndex = 10;
 //CALLBACKS
 
 arrowRight.addEventListener("click", ()=>{
-    nextPage();
-    updateIndex();
-    showNextItems();
+    let items = amount.value;
+    if(items > 10){
+        nextPage();
+        updateIndex();
+        showNextItems();
+    }
 });
 arrowLeft.addEventListener("click", ()=>{
     prevPage();
@@ -93,9 +96,6 @@ function showNextItems(){
 function sortPeople(sortBy,items){
     peopleList.textContent = "";
    
-    if(items < 10){
-       arrowRight.disabled = true;
-    }
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
         snapshot.forEach((child)=>{
             let data = child.val();
