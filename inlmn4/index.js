@@ -77,9 +77,10 @@ function showNextItems(sortBy, items) {
             let data = child.val();
             sortedList.push(data);
         });
+         printNextItems(sortedList);
     });
     
-    printNextItems(sortedList);
+   
 }
 
 function printNextItems(sortedList){
