@@ -57,7 +57,7 @@ addBtn.addEventListener("click", () => {
 });
 //==================================================================
 //FIREBASE
-firebase.database().ref("people/").on("value", (snapshot) => {
+firebase.database().ref("people/").orderByChild("name").limitToFirst(10).on("value", (snapshot) => {
     peopleList.textContent = "";
     let data = snapshot.val();
     for (let person in data) {
@@ -68,7 +68,13 @@ firebase.database().ref("people/").on("value", (snapshot) => {
 //FUNCTIONS
 function showNextItems(sortBy, items) {
     let sortedList = []; 
-   peopleList.textContent = ""; firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
+   peopleList.textContent = ""; 
+    
+    if(sortBy === ""){
+        sortBy = "name";
+    }
+    
+    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
             sortedList.push(data);
@@ -86,14 +92,10 @@ function showNextItems(sortBy, items) {
 function sortPeople(sortBy, items) {
     peopleList.textContent = "";
     sortByCat = sortBy;
-    let counter = 1;
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
-            if(counter > 10){
-                addToList(data.name, data.age, data.favColor);
-            }
-            counter++;
+            addToList(data.name, data.age, data.favColor);
         });
     });
 }
@@ -105,9 +107,9 @@ function addToList(name, age, color) {
 //add to database
 function addObjToDB(_name, _age, _favColor) {
     let obj = {
-        name: _name
-        , age: _age
-        , favColor: _favColor
+        name: _name, 
+        age: _age, 
+        favColor: _favColor
     };
     firebase.database().ref("people/").push(obj);
 }
