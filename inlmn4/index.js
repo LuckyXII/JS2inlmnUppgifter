@@ -88,7 +88,7 @@ function showNextItems(){
             }
             counter++;
         }
-        counter = 0;
+        counter = 1;
     });
 }
 
