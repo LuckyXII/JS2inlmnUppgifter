@@ -57,7 +57,7 @@ addBtn.addEventListener("click", () => {
 });
 //==================================================================
 //FIREBASE
-firebase.database().ref("people/").limitToFirst(10).on("value", (snapshot) => {
+firebase.database().ref("people/").orderByChild("name").limitToFirst(10).on("value", (snapshot) => {
     peopleList.textContent = "";
     let data = snapshot.val();
     for (let person in data) {
@@ -77,7 +77,6 @@ function showNextItems(sortBy, items) {
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
-            console.log(data);
             sortedList.push(data);
         });
     });
@@ -93,14 +92,14 @@ function showNextItems(sortBy, items) {
 function sortPeople(sortBy, items) {
     peopleList.textContent = "";
     sortByCat = sortBy;
-    
+    let counter = 1;
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
-            
+            if(counter < 10){
                 addToList(data.name, data.age, data.favColor);
-            
-          
+            }
+            counter++;
         });
     });
 }
