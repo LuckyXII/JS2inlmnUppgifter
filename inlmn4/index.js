@@ -1,6 +1,5 @@
 /*jshint esnext: true, moz: true*/
 /*jslint browser:true */
-
 //==================================================================
 //GLOBALS
 var peopleList = document.getElementById("peopleList");
@@ -15,130 +14,117 @@ var amount = document.getElementById("itemsAmount");
 var arrowLeft = document.getElementById("leftArrow");
 var arrowRight = document.getElementById("rightArrow");
 var pageIndex = document.getElementById("pageIndex");
-var minIndex = 1, maxIndex = 100;
+var minIndex = 1
+    , maxIndex = 100;
 var sortByCat = "";
-
 //==================================================================
 //MAIN
-
 //==================================================================
 //CALLBACKS
-
-arrowRight.addEventListener("click", ()=>{
+arrowRight.addEventListener("click", () => {
     let items = amount.value;
-    if(items > 10){
+    if (items > 10) {
         nextPage();
         updateIndex();
-        showNextItems(sortByCat,items);
+        showNextItems(sortByCat, items);
     }
 });
-arrowLeft.addEventListener("click", ()=>{
+arrowLeft.addEventListener("click", () => {
     let items = amount.value;
     prevPage();
     updateIndex();
     showNextItems(sortByCat, items);
 });
-
-sortName.addEventListener("click", ()=>{
+sortName.addEventListener("click", () => {
     let items = amount.value;
-    sortPeople("name",items);
+    sortPeople("name", items);
 });
-sortAge.addEventListener("click", ()=>{
+sortAge.addEventListener("click", () => {
     let items = amount.value;
-    sortPeople("age",items);
+    sortPeople("age", items);
 });
-sortColor.addEventListener("click", ()=>{
+sortColor.addEventListener("click", () => {
     let items = amount.value;
-    sortPeople("favColor",items);
+    sortPeople("favColor", items);
 });
-
-addBtn.addEventListener("click", ()=>{
+addBtn.addEventListener("click", () => {
     let name = nameInp.value.toLowerCase();
     let age = ageInp.value.toLowerCase();
     let color = colorInp.value.toLowerCase();
-    addObjToDB(name,age,color);
-    name="";
-    age="";
-    color="";
+    addObjToDB(name, age, color);
+    name = "";
+    age = "";
+    color = "";
 });
-
 //==================================================================
 //FIREBASE
-
-firebase.database().ref("people/").on("value", (snapshot)=>{
-    
+firebase.database().ref("people/").on("value", (snapshot) => {
     peopleList.textContent = "";
     let data = snapshot.val();
-    for(let person in data){
-    addToList(data[person].name,data[person].age,data[person].favColor);
+    for (let person in data) {
+        addToList(data[person].name, data[person].age, data[person].favColor);
     }
 });
-
 //==================================================================
 //FUNCTIONS
-
-function showNextItems(sortBy,items){
-    
-     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
-        let counter = 1;
-        peopleList.textContent = "";
-        let data = snapshot.val();
-        for(let person in data){
-
-            if(counter >= minIndex && counter <= maxIndex){
-                addToList(data[person].name,data[person].age,data[person].favColor);
-            }
-            counter++;
-        }
-        counter = 1;
+function showNextItems(sortBy, items) {
+    let sortedList = []; 
+    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
+        snapshot.forEach((child) => {
+            let data = child.val();
+            sortedList.push(data);
+        });
     });
+    
+    for(let person = 0; person < sortedList.length; person++){
+        if(person >= minIndex-1 && person <= maxIndex){
+            addToList(person.name,person.age,person.favColor);   
+        }
+        
+    }
 }
-
 //sort and limit results
-function sortPeople(sortBy,items){
+function sortPeople(sortBy, items) {
     peopleList.textContent = "";
-   sortByCat = sortBy;
-   
-    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
-        snapshot.forEach((child)=>{
+    sortByCat = sortBy;
+    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
+        snapshot.forEach((child) => {
             let data = child.val();
             addToList(data.name, data.age, data.favColor);
         });
     });
 }
-
 //add to list
-function addToList(name,age,color){
+function addToList(name, age, color) {
     peopleList.appendChild(newElement("li"));
     peopleList.lastChild.textContent = `Name: ${name}, Age: ${age}, Favourit Color: ${color}`;
 }
-
 //add to database
-function addObjToDB(_name,_age,_favColor){
+function addObjToDB(_name, _age, _favColor) {
     let obj = {
-        name: _name,
-        age: _age,
-        favColor: _favColor
+        name: _name
+        , age: _age
+        , favColor: _favColor
     };
     firebase.database().ref("people/").push(obj);
 }
-
 //new element
-function newElement(elm){
+function newElement(elm) {
     return document.createElement(elm);
 }
-
 //show nr of items
-function updateIndex(){
+function updateIndex() {
     pageIndex.textContent = `${minIndex}-${maxIndex}`;
 }
-function nextPage(){
+
+function nextPage() {
     minIndex += 10;
     maxIndex += 10;
 }
-function prevPage(){
-    if(minIndex > 1){
+
+function prevPage() {
+    if (minIndex > 1) {
         minIndex -= 10;
         maxIndex -= 10;
-   }
+    }
 }
