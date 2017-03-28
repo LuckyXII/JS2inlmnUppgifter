@@ -88,7 +88,7 @@ function showNextItems(sortBy, items) {
 
 function printNextItems(sortedList){
     for(let i = 0; i < sortedList.length; i++){
-        if(i >= minIndex-1 && i <= maxIndex){
+        if(i >= minIndex-1 && i <= maxIndex-1){
             addToList(sortedList[i].name,sortedList[i].age,sortedList[i].favColor);   
         }
         
