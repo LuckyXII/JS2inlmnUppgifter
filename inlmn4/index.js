@@ -92,7 +92,7 @@ function showNextItems(){
 //sort and limit results
 function sortPeople(sortBy,items){
     peopleList.textContent = "";
-    maxIndex = items; firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
+    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
         snapshot.forEach((child)=>{
             let data = child.val();
             addToList(data.name, data.age, data.favColor);
