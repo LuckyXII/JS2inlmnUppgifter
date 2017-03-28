@@ -15,8 +15,8 @@ var amount = document.getElementById("itemsAmount");
 var arrowLeft = document.getElementById("leftArrow");
 var arrowRight = document.getElementById("rightArrow");
 var pageIndex = document.getElementById("pageIndex");
-var minIndex = 1, maxIndex = 10;
-
+var minIndex = 1, maxIndex = 100;
+var sortByCat = "";
 
 //==================================================================
 //MAIN
@@ -29,13 +29,14 @@ arrowRight.addEventListener("click", ()=>{
     if(items > 10){
         nextPage();
         updateIndex();
-        showNextItems();
+        showNextItems(sortByCat,items);
     }
 });
 arrowLeft.addEventListener("click", ()=>{
+    let items = amount.value;
     prevPage();
     updateIndex();
-    showNextItems();
+    showNextItems(sortByCat, items);
 });
 
 sortName.addEventListener("click", ()=>{
@@ -76,14 +77,15 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 //==================================================================
 //FUNCTIONS
 
-function showNextItems(){
-    firebase.database().ref("people/").once("value", (snapshot)=>{
+function showNextItems(sortBy,items){
+    
+     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
         let counter = 1;
         peopleList.textContent = "";
         let data = snapshot.val();
         for(let person in data){
 
-            if(counter >= minIndex && counter < maxIndex){
+            if(counter >= minIndex && counter <= maxIndex){
                 addToList(data[person].name,data[person].age,data[person].favColor);
             }
             counter++;
@@ -95,6 +97,7 @@ function showNextItems(){
 //sort and limit results
 function sortPeople(sortBy,items){
     peopleList.textContent = "";
+   sortByCat = sortBy;
    
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot)=>{
         snapshot.forEach((child)=>{
