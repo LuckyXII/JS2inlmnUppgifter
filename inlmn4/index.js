@@ -36,13 +36,15 @@ arrowLeft.addEventListener("click", () => {
 });
 sortName.addEventListener("click", () => {
     let items = amount.value;
-    sortPeople("name", items);
+    showNextItems("name", items);
 });
 sortAge.addEventListener("click", () => {
-       sortPeople("age");
+    let items = amount.value;
+    showNextItems("age", items);
 });
 sortColor.addEventListener("click", () => {
-    sortPeople("favColor");
+    let items = amount.value;
+    showNextItems("favColor", items);
 });
 addBtn.addEventListener("click", () => {
     let name = nameInp.value.toLowerCase();
@@ -66,6 +68,7 @@ firebase.database().ref("people/").orderByChild("name").limitToFirst(10).on("val
 //FUNCTIONS
 function showNextItems(sortBy, items) {
     let sortedList = []; 
+    sortByCat = sortBy;
    peopleList.textContent = ""; 
     
     if(sortBy === ""){
@@ -91,6 +94,7 @@ function printNextItems(sortedList){
         
     }
 }
+/*
 //sort and limit results
 function sortPeople(sortBy) {
     peopleList.textContent = "";
@@ -104,6 +108,7 @@ function sortPeople(sortBy) {
         });
     });
 }
+*/
 //add to list
 function addToList(name, age, color) {
     peopleList.appendChild(newElement("li"));
