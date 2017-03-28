@@ -77,6 +77,7 @@ function showNextItems(sortBy, items) {
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
+            console.log(data);
             sortedList.push(data);
         });
     });
