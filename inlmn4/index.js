@@ -15,7 +15,7 @@ var amount = document.getElementById("itemsAmount");
 var arrowLeft = document.getElementById("leftArrow");
 var arrowRight = document.getElementById("rightArrow");
 var pageIndex = document.getElementById("pageIndex");
-var minIndex = 1, maxIndex = 1000000000;
+var minIndex = 1, maxIndex = 10;
 
 
 //==================================================================
