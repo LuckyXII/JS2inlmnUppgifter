@@ -75,12 +75,12 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 function showNextItems(){
     firebase.database().ref("people/").once("value", (snapshot)=>{
-        let counter = 0;
+        let counter = 1;
         peopleList.textContent = "";
         let data = snapshot.val();
         for(let person in data){
 
-            if(counter > minIndex && counter < maxIndex){
+            if(counter >= minIndex && counter < maxIndex){
                 addToList(data[person].name,data[person].age,data[person].favColor);
             }
             counter++;
