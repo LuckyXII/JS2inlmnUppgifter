@@ -14,8 +14,7 @@ var amount = document.getElementById("itemsAmount");
 var arrowLeft = document.getElementById("leftArrow");
 var arrowRight = document.getElementById("rightArrow");
 var pageIndex = document.getElementById("pageIndex");
-var minIndex = 1
-    , maxIndex = 100;
+var minIndex = 1, maxIndex = 10;
 var sortByCat = "";
 //==================================================================
 //MAIN
@@ -69,16 +68,16 @@ firebase.database().ref("people/").on("value", (snapshot) => {
 //FUNCTIONS
 function showNextItems(sortBy, items) {
     let sortedList = []; 
-    firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
+   peopleList.textContent = ""; firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
             sortedList.push(data);
         });
     });
     
-    for(let person = 0; person < sortedList.length; person++){
-        if(person >= minIndex-1 && person <= maxIndex){
-            addToList(person.name,person.age,person.favColor);   
+    for(let i = 0; i < sortedList.length; i++){
+        if(i >= minIndex-1 && i <= maxIndex){
+            addToList(sortedList[i].name,sortedList[i].age,sortedList[i].favColor);   
         }
         
     }
