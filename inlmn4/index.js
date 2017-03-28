@@ -62,15 +62,11 @@ addBtn.addEventListener("click", ()=>{
 //FIREBASE
 
 firebase.database().ref("people/").on("value", (snapshot)=>{
-    let counter = 0;
+    
     peopleList.textContent = "";
     let data = snapshot.val();
     for(let person in data){
-       
-        if(counter > minIndex && counter < maxIndex){
-            addToList(data[person].name,data[person].age,data[person].favColor);
-        }
-        counter++;
+    addToList(data[person].name,data[person].age,data[person].favColor);
     }
 });
 
