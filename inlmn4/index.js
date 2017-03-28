@@ -27,10 +27,12 @@ var minIndex = 1, maxIndex = 10;
 arrowRight.addEventListener("click", ()=>{
     nextPage();
     updateIndex();
+    showNextItems();
 });
 arrowLeft.addEventListener("click", ()=>{
     prevPage();
     updateIndex();
+    showNextItems();
 });
 
 sortName.addEventListener("click", ()=>{
@@ -51,6 +53,9 @@ addBtn.addEventListener("click", ()=>{
     let age = ageInp.value.toLowerCase();
     let color = colorInp.value.toLowerCase();
     addObjToDB(name,age,color);
+    name="";
+    age="";
+    color="";
 });
 
 //==================================================================
@@ -71,6 +76,21 @@ firebase.database().ref("people/").on("value", (snapshot)=>{
 
 //==================================================================
 //FUNCTIONS
+
+function showNextItems(){
+    firebase.database().ref("people/").once("value", (snapshot)=>{
+        let counter = 0;
+        peopleList.textContent = "";
+        let data = snapshot.val();
+        for(let person in data){
+
+            if(counter > minIndex && counter < maxIndex){
+                addToList(data[person].name,data[person].age,data[person].favColor);
+            }
+            counter++;
+        }
+    });
+}
 
 //sort and limit results
 function sortPeople(sortBy,items){
