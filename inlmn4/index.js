@@ -92,10 +92,14 @@ function showNextItems(sortBy, items) {
 function sortPeople(sortBy, items) {
     peopleList.textContent = "";
     sortByCat = sortBy;
+    let counter = 1;
     firebase.database().ref("people/").orderByChild(sortBy).limitToFirst(parseInt(items)).once("value", (snapshot) => {
         snapshot.forEach((child) => {
             let data = child.val();
-            addToList(data.name, data.age, data.favColor);
+            if(counter > 10){
+                addToList(data.name, data.age, data.favColor);
+            }
+            counter++;
         });
     });
 }
