@@ -9,7 +9,7 @@ var output1 = document.getElementById("output1");
 class First extends React.Component{
     render(){
         return(
-             <p>HelloWorld</p>
+             <p>HelloWorld {input1.value}</p>
         );
     }
 }
