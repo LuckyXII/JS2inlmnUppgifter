@@ -1,4 +1,4 @@
-/*jshint esnext: true, moz: true*/
+/*jshint esnext: true, moz: true, browser: true*/
 /*jslint browser:true */
 //==================================================================
 //GLOBALS
