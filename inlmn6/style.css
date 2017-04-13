@@ -1,0 +1,31 @@
+.listItems div{
+    z-index: 1000;
+}
+
+.listItems h4{
+    z-index: -10;
+    cursor: pointer;
+    -webkit-text-decoration-line: underline;
+    text-decoration-line: underline;
+    margin-bottom: 3px;
+}
+
+.listItems h4:active{
+    color: cornflowerblue;
+}
+
+.itemDiv{
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+#form{
+    margin-left: 40px;
+}
+
+input, button{
+    padding: 5px;
+    font-weight: bold;
+}

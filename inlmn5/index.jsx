@@ -7,47 +7,40 @@
 //=====================================================
 //GLOBALS
 
-var input1 = document.getElementById("textInput1");
 var output1 = document.getElementById("output1");
 var output2 = document.getElementById("output2");
-var plus = document.getElementById("plus");
-var minus = document.getElementById("minus");
-var times = document.getElementById("times");
-var devided = document.getElementById("devided");
-var outputSecond = document.getElementById("outputSecond");
-var method = "";
 var output3 = document.getElementById("output3");
 //=====================================================
 //CLASSES
 
 //First
 class First extends React.Component{
+    constructor(props){
+        super(props);
+        
+        this.state={text:""}
+        
+        this.printText = this.printText.bind(this);
+    }
+    
+    printText(e){
+        this.setState({text:e.target.value});
+    }
+    
     render(){
         return(
-             <p>{input1.value}</p>
+            <section>
+                <input onChange={this.printText} type="text" value={this.state.text} />
+                <p>{this.state.text}</p>
+            </section>
         );
     }
 }
 //END First
 
 //Second
-class Second extends React.Component{
-    render(){
-        return(
-            <section>
-                <input id="inputx" type="text" name="x" placeholder="value1"/>
-                <input id="inputy" type="text" name="y" placeholder="value2"/>
-                <p>{result()}</p>
-            </section>
-        );
-    }
-}
-//END Second
 
-//SecondState
-class SecondState extends React.Component{
-   
-    
+class Second extends React.Component{
     constructor(props){
         super(props);
         this.state = {};
@@ -60,7 +53,7 @@ class SecondState extends React.Component{
         let inputy = document.getElementById("inputy2");
         let inputCorrect = (inputx !== null && inputy !== null);
         if(inputCorrect){
-            console.log("***",method,":", inputx.value,":",inputy.value);
+            
             if(method == "+"){
                
                 this.setState({result: `Result is ${parseInt(inputx.value) + parseInt(inputy.value)}`});
@@ -83,6 +76,8 @@ class SecondState extends React.Component{
     }
     
     render(){
+        let sum = Number(this.state.value1)+Number(this.state.value2)
+        
         return(
             <section>
                 <input id="inputx2" type="text" name="x2" placeholder="value1"/>
@@ -97,7 +92,7 @@ class SecondState extends React.Component{
         );
     }
 }
-//END SecondState
+//END SECOND
 
 //Third
 class Third extends React.Component{
@@ -161,53 +156,15 @@ class Third extends React.Component{
 
 //=====================================================
 //MAIN
-ReactDOM.render(<SecondState />, outputSecond);
+ReactDOM.render(<First />, output1);
 ReactDOM.render(<Second />,output2);
 ReactDOM.render(<Third />, output3);
-calcMethod(plus);
-calcMethod(minus);
-calcMethod(times);
-calcMethod(devided);
+
 
 //=====================================================
 //CALLBACKS
-input1.addEventListener("keyup", ()=>{
-    ReactDOM.render(<First />, output1 );
-});
 
 
 //=====================================================
 //FUNCTIONS
-
-//-----------------------------------
-//class Second
-function calcMethod(elm){
-    elm.addEventListener("click", (e)=>{
-        method = e.target.textContent;
-        ReactDOM.render(<Second />,output2);
-    });
-}
-function result(){
-    let inputx = document.getElementById("inputx");
-    let inputy = document.getElementById("inputy");
-    
-    
-    if((inputx !== null && inputy !== null) && method == "+"){
-        return `Result is ${parseInt(inputx.value) + parseInt(inputy.value)}`;
-    }
-    else if((inputx !== null && inputy !== null) && method == "-"){
-        return `Result is ${parseInt(inputx.value) - parseInt(inputy.value)}`;
-    }
-    if((inputx !== null && inputy !== null) && method == "*"){
-        return `Result is ${parseInt(inputx.value) * parseInt(inputy.value)}`;
-    }
-    if((inputx !== null && inputy !== null) && method == "/"){
-        return `Result is ${parseInt(inputx.value) / parseInt(inputy.value)}`;
-    }else{
-        return "";
-    }
-}
-//END
-//------------------------------------
-
 
