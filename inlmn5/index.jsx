@@ -100,13 +100,63 @@ class Third extends React.Component{
         super(props);
         this.state = {
             text:"",
-            class_name: "stateChange",
+            class1: "",
+            class2:"",
+            class3:"",
             clicked: 0,
             clickedMost: 0
         };
-        this.stateChange = this.stateChange.bind(this);
-    }
+        //this.stateChange = this.stateChange.bind(this);
+        this.clickBtn = this.clickBtn.bind(this);
+        this.click1 = this.click1.bind(this);
+        this.click2 = this.click2.bind(this);
+        this.click3 = this.click3.bind(this);
     
+    }
+    click1(e) {
+        this.clickBtn(e,"stateChange","","" );
+    }
+     click2(e) {
+        this.clickBtn(e,"","stateChange","" );
+    }
+     click3(e) {
+        this.clickBtn(e,"","","stateChange" );
+    }
+      
+                      
+    clickBtn(e,class1,class2,class3){
+        let btn, btnArr=[],clickedTimes = 0,mostClicked;
+        let btn1 = document.getElementById("btn1");
+        let btn2 = document.getElementById("btn2");
+        let btn3 = document.getElementById("btn3");
+        btnArr =[btn1,btn2,btn3];
+        let elm = e.target;
+        console.log(elm);
+        this.setState({text:elm.title,class1: class1,class2:class2,class3: class3,clicked:this.state.clicked+1});
+        
+        
+        if(elm.clicked === undefined){
+            elm.clicked = 0;
+        }
+        elm.clicked++;
+        if(elm.clicked > 0){
+            for(let i = 0; i < 3; i++){
+                clickedTimes = btnArr[i].clicked > clickedTimes ?
+                    btnArr[i].clicked:clickedTimes;
+                
+                if(btnArr[i].clicked == clickedTimes){
+                    mostClicked = btnArr[i];
+                    
+                }
+            }
+            mostClicked.className = "clickedMost";
+            this.setState({clickedMost:mostClicked.clicked});
+        }
+        
+    }
+ 
+    /*
+    //stateChange
     stateChange(e){
         let btn, btnArr=[],clickedTimes = 0,mostClicked;
         let btn1 = document.getElementById("btn1");
@@ -114,11 +164,13 @@ class Third extends React.Component{
         let btn3 = document.getElementById("btn3");
         btnArr =[btn1,btn2,btn3];
         
+        //reset class
         for(let i = 1; i <= 3; i++){
             btn = document.getElementById("btn"+i);
             btn.className = "";
         }
         
+        //set new class
         let elm = e.target;
         this.setState({text:elm.title,class_name: "stateChange",clicked:this.state.clicked+1});
         elm.className = this.state.class_name;
@@ -141,13 +193,14 @@ class Third extends React.Component{
             this.setState({clickedMost:mostClicked.clicked});
         }
     }
+    */
     
     render(){
         return(
             <section>
-                <button title="Första Knappen" onClick={this.stateChange} id="btn1">Btn1</button>
-                <button title="Andra Knappen" onClick={this.stateChange} id="btn2">Btn2</button>
-                <button title="Tredje Knappen" onClick={this.stateChange} id="btn3">Btn3</button>
+                <button title="Första Knappen" onClick={this.click1} id="btn1" className={this.class1}>Btn1</button>
+                <button title="Andra Knappen" onClick={this.click2} id="btn2" className={this.class3}>Btn2</button>
+                <button title="Tredje Knappen" onClick={this.click3} id="btn3" className={this.class3}>Btn3</button>
                 <p>Button:{this.state.text}, Total clicks: {this.state.clicked}, Element clicked most: {this.state.clickedMost}</p>
             </section>
         );

@@ -29,3 +29,26 @@ input, button{
     padding: 5px;
     font-weight: bold;
 }
+
+h4{
+    display: inline-block;
+    margin-right: 200px;
+}
+
+.fa{
+    display: none;
+    margin: 5px;
+    cursor: pointer;
+    
+}
+
+#status{
+    margin-left: 40px;
+    color: greenyellow;
+    font-family: serif;
+    text-shadow:
+        -1px -1px 0 #898989,
+        1px -1px 0 #898989,
+        -1px 1px 0 #898989,
+        1px 1px 0 #898989; 
+}
