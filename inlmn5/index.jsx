@@ -1,6 +1,6 @@
 /*jshint esnext: true, moz: true*/
 /*jslint browser:true */
-/*global React.Component, React, ReactDOM */
+/*global React.Component, React, ReactDOM, console */
 
 
 //REACT
@@ -18,7 +18,7 @@ class First extends React.Component{
     constructor(props){
         super(props);
         
-        this.state={text:""}
+        this.state={text:""};
         
         this.printText = this.printText.bind(this);
     }
@@ -43,30 +43,32 @@ class First extends React.Component{
 class Second extends React.Component{
     constructor(props){
         super(props);
-        this.state = {};
+        this.state = {x: "", y: ""};
         this.calcResult = this.calcResult.bind(this);
+        this.inputValue = this.inputValue.bind(this);
     }
     
     calcResult(e){
         let method = e.target.textContent;
-        let inputx = document.getElementById("inputx2");
-        let inputy = document.getElementById("inputy2");
-        let inputCorrect = (inputx !== null && inputy !== null);
+        let x = this.state.x;
+        let y = this.state.y;
+        let inputCorrect = (x !== "" && y !== "");
+        
         if(inputCorrect){
             
             if(method == "+"){
                
-                this.setState({result: `Result is ${parseInt(inputx.value) + parseInt(inputy.value)}`});
+                this.setState({result: `Result is ${parseInt(x) + parseInt(y)}`});
             }
             else if(method == "-"){
-                this.setState({result: `Result is ${parseInt(inputx.value) - parseInt(inputy.value)}`});
+                this.setState({result: `Result is ${parseInt(x) - parseInt(y)}`});
             }
             else if(method == "*"){
-                this.setState({result: `Result is ${parseInt(inputx.value) * parseInt(inputy.value)}`});
+                this.setState({result: `Result is ${parseInt(x) * parseInt(y)}`});
             }
             else if(method == "/"){
-                console.log(inputx.value, inputy.value);
-                this.setState({result: `Result is ${parseInt(inputx.value) / parseInt(inputy.value)}`});
+                console.log(x, y);
+                this.setState({result: `Result is ${parseInt(x) / parseInt(y)}`});
             }
         
         }else{
@@ -75,13 +77,18 @@ class Second extends React.Component{
         
     }
     
+    inputValue(e){
+        let elm = e.target;
+        let val = elm.id === "inputx2" ? this.setState({x:elm.value}) : this.setState({y:elm.value});
+    }
+    
     render(){
-        let sum = Number(this.state.value1)+Number(this.state.value2)
+        let sum = Number(this.state.value1)+Number(this.state.value2);
         
         return(
             <section>
-                <input id="inputx2" type="text" name="x2" placeholder="value1"/>
-                <input id="inputy2" type="text" name="y2" placeholder="value2"/>
+                <input onChange={this.inputValue} id="inputx2" type="text" name="x2" placeholder="value1"/>
+                <input onChange={this.inputValue} id="inputy2" type="text" name="y2" placeholder="value2"/>
                 <br/>
                 <button onClick={this.calcResult} id="plus2">+</button>
                 <button onClick={this.calcResult} id="minus2">-</button>
@@ -139,14 +146,16 @@ class Third extends React.Component{
             elm.clicked = 0;
         }
         elm.clicked++;
+        
         if(elm.clicked > 0){
             for(let i = 0; i < 3; i++){
+                btnArr[i].className = "";
+                elm.className = "stateChange";
                 clickedTimes = btnArr[i].clicked > clickedTimes ?
                     btnArr[i].clicked:clickedTimes;
                 
                 if(btnArr[i].clicked == clickedTimes){
                     mostClicked = btnArr[i];
-                    
                 }
             }
             mostClicked.className = "clickedMost";
