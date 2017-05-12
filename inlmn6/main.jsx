@@ -16,14 +16,18 @@ class App extends React.Component{
             item:"",
             color:"",
             id: "",
-            status: ""
+            status: "",
+            btnTxt:"Add"
         };
         this.addNewItem = this.addNewItem.bind(this);
         this.fillOutForm = this.fillOutForm.bind(this);
+        this.inputValue = this.inputValue.bind(this);
+        this.editItems = this.editItems.bind(this);
+        this.removeItems = this.removeItems.bind(this);
     }
     
     //inputValue
-    inputValue = (e) =>{
+    inputValue(e){
         let inp = e.target;
         
         if(inp.name === "item"){
@@ -40,72 +44,43 @@ class App extends React.Component{
     
     //AddNewItem
     addNewItem(e){
-        
-        
-        let inputs = document.getElementsByClassName("input");
         let oldList = this.state.list;
-        let newItem = [{item:inputs[0].value,color:inputs[1].value}];
-        
-        
-        if(e.target.textContent == "Add"){
+        let newItem = [{item:this.state.item,color:this.state.color}];
+
+        if(e.target.textContent === "Add"){
         
             this.setState({
                 list:oldList.concat(newItem),
                 item: "", color:"",
                 status:"Item added successfully"
             });
-            inputs[0].value="";
-            inputs[1].value="";
-            
-            
         }else{
             oldList[this.state.id] = {item: this.state.item, color: this.state.color};
-            inputs[0].value="";
-            inputs[1].value="";
-            let btn = document.getElementById("addBtn");
-            btn.textContent ="Add"
-            this.setState({status:"Item updated successfully"});
+            this.setState({btnTxt:"Add",status:"Item updated successfully"});
         }
         
     }
     
     //fillOutForm
     fillOutForm(e){
-        let inputs = document.getElementsByClassName("input");
         let itemID = Number(e.target.id)-1;
         let list = this.state.list;
         this.setState({
             item: list[itemID].item, 
             color: list[itemID].color,
-            id: itemID
+            id: itemID+1
         });
-        
-        
-        //reset display/hide icons
-        let icons = document.getElementsByClassName("fa");
-        for(let i = 0; i < icons.length; i++){
-            icons[i].style.display = "none";
-        }
-        //show icons
-        let parent = e.target.parentNode;
-        let edit = parent.children[1];
-        let bin = parent.children[2];
-        
-        edit.style.display = "inline-block";
-        bin.style.display = "inline-block";
     }
     
     //Edit Items
-    editItems = (e)=>{
-        let btn = document.getElementById("addBtn");
-        btn.textContent ="Update"
-        
+    editItems(){
+        this.setState({btnTxt:"update"});
     }
     //Remove Items
-    removeItems = (e)=>{
+    removeItems(e){
         let li = e.target;
         let parent = li.parentNode;
-        let id = parent.children[0].id
+        let id = parent.children[0].id;
         id = Number(id)-1;
         let oldList = this.state.list;
         let listStart = oldList.slice(0,id);
@@ -124,12 +99,14 @@ class App extends React.Component{
                     list={this.state.list}
                     editItems={this.editItems}
                     removeItems={this.removeItems}
+                    id={this.state.id}
                 />
                 <AddForm 
                     setValue={this.inputValue}  
                     addItem={this.addNewItem}
                     item={this.state.item}
                     color={this.state.color}
+                    txt={this.state.btnTxt}
                 />
                 <p id="status">{this.state.status}</p>
             </section>
@@ -153,7 +130,7 @@ class AddForm extends React.Component{
                         onChange={this.props.setValue} 
                         value={this.props.color}
                     />
-                    <button id="addBtn" type="button"  onClick={this.props.addItem}>Add</button><br/>
+                    <button id="addBtn" type="button"  onClick={this.props.addItem}>{this.props.txt}</button><br/>
                 </form>    
             </section>
         );
@@ -165,14 +142,14 @@ class MyList extends React.Component{
      
     render(){
         let i = 0;
-        const newList = this.props.list.map((item)=>{
+        const newList = this.props.list.map(()=>{
             i++;
             return (
                 <li className ="listItems" key={i}>
                     <div className="itemDiv">
                         <h4 onClick={this.props.fillForm} id={i}>Item {i}</h4>
-                        <EditItem name={i} editListItem={this.props.editItems}/>
-                        <RemoveItem name={i} removeListItem={this.props.removeItems}/>
+                        <EditItem id={this.props.id} name={i} editListItem={this.props.editItems}/>
+                        <RemoveItem id={this.props.id} name={i} removeListItem={this.props.removeItems}/>
                     </div>
                 </li>);    
         });
@@ -187,16 +164,29 @@ class MyList extends React.Component{
 
 class EditItem extends React.Component{
     render(){
+        let id = this.props.id;
+        let name = this.props.name;
+        console.log("id:",id,"name:",name);
         return(
-            <i onClick={this.props.editListItem} className="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <div className="wrapper">
+                {id === name &&
+                    <i onClick={this.props.editListItem} className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                }
+            </div>
         );
     }
 }
 
 class RemoveItem extends React.Component{
     render(){
+        let id = this.props.id;
+        let name = this.props.name;
         return(
-            <i onClick={this.props.removeListItem} className="fa fa-trash" aria-hidden="true"></i>
+            <div className="wrapper">
+                {id === name &&
+                    <i onClick={this.props.removeListItem} className="fa fa-trash" aria-hidden="true"></i>
+                }
+            </div>
         );
     }
 }
@@ -211,7 +201,7 @@ const myList = [
     {item: "whale",color: "pink"},
     {item: "mouse" ,color: "orange"},
     {item: "phone" ,color: "banana"}
-]
+];
 //=======================================================
 //MAIN
 

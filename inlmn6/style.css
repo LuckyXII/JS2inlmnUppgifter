@@ -35,12 +35,6 @@ h4{
     margin-right: 200px;
 }
 
-.fa{
-    display: none;
-    margin: 5px;
-    cursor: pointer;
-    
-}
 
 #status{
     margin-left: 40px;
@@ -51,4 +45,8 @@ h4{
         1px -1px 0 #898989,
         -1px 1px 0 #898989,
         1px 1px 0 #898989; 
+}
+
+.wrapper{
+    display: inline;
 }
