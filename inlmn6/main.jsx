@@ -55,7 +55,7 @@ class App extends React.Component{
                 status:"Item added successfully"
             });
         }else{
-            oldList[this.state.id] = {item: this.state.item, color: this.state.color};
+            oldList[this.state.id-1] = {item: this.state.item, color: this.state.color};
             this.setState({btnTxt:"Add",status:"Item updated successfully"});
         }
         
@@ -79,7 +79,7 @@ class App extends React.Component{
     //Remove Items
     removeItems(e){
         let li = e.target;
-        let parent = li.parentNode;
+        let parent = li.parentNode.parentNode;
         let id = parent.children[0].id;
         id = Number(id)-1;
         let oldList = this.state.list;
@@ -166,7 +166,6 @@ class EditItem extends React.Component{
     render(){
         let id = this.props.id;
         let name = this.props.name;
-        console.log("id:",id,"name:",name);
         return(
             <div className="wrapper">
                 {id === name &&
